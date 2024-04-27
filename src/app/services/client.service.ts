@@ -24,4 +24,9 @@ export class ClientService extends TotsBaseHttpService<Client> {
         map(response => response?.response?.data || [])
       ); // Realiza la solicitud POST y devuelve un Observable de Client[]
     }
+
+    removeClient(id: number): Observable<any> {
+      const url = this.config.baseUrl + 'client/remove/' + `${id}`;
+      return this.http.delete<any>(url);
+    }
 }

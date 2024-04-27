@@ -11,6 +11,10 @@ import { TOTS_CLOUD_STORAGE_PROVIDER } from '@tots/cloud-storage';
 import { TableComponent } from './pages/table/table.component';
 import { TOTS_TABLE_DEFAULT_CONFIG, TotsTableModule } from '../../tots_table/table/src/public-api';
 import { totsTableDefaultConfig } from './entities/tots-table-default-config';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { TotsDateColumnModule } from 'tots_table/date-column/src/public-api';
+import { TotsEditableColumnsModule } from 'tots_table/editable-columns/src/public-api';
 
 @NgModule({
   declarations: [
@@ -24,8 +28,12 @@ import { totsTableDefaultConfig } from './entities/tots-table-default-config';
     /** Tots Libraries */
     TotsCoreModule,
     TotsAuthModule,
+    TotsDateColumnModule,
+    TotsEditableColumnsModule,
     BrowserAnimationsModule,
     TotsTableModule,
+    MatButtonModule,
+    MatButtonToggleModule,
   ],
   providers: [
     {

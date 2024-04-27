@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { TotsDateColumn } from '../../../../tots_table/date-column/src/lib/column-factories/tots-date-column';
@@ -38,14 +38,14 @@ export class TableComponent implements OnInit {
 
   private id = 0;
   clients: Client[] = [];
-  items = [
+   items = [
     { id: this.id++, title: 'Item 1, pedro', active: 1, subtitle: 'AB232', date: '2021-01-01', debit: 1000, credit: 500 },
     { id: this.id++, title: 'Item 2', active: 1, subtitle: 'AB232', date: '2021-01-01', debit: 500, credit: 1000, edit_field: 'Pedro' },
     { id: this.id++, title: 'Item 3', active: 0, subtitle: 'AB232', date: '2021-01-01' },
     { id: this.id++, title: 'Item 4', active: 0, subtitle: 'AB232', date: '2021-01-01', classCustom: 'tots-cell-item-green', edit_field: "dsdada" },
     { id: this.id++, title: 'Item 5', active: 1, subtitle: 'AB232', date: '2021-01-01' },
   ];
-  itemsClient: Client[] = [
+ /* itemsClient: Client[] = [
     {
       "id": 1538,
       "firstname": "test",
@@ -106,7 +106,7 @@ export class TableComponent implements OnInit {
       "updated_at": "2024-04-25T22:59:17.000000Z",
       "deleted": 0
     },
-  ];
+  ]; */
 
   formGroup = new FormGroup({});
 
@@ -118,24 +118,40 @@ export class TableComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    //this.fetchClientList();
     this.legacyConfig();
+    this.fetchClientList();
     //this.configThroughFactories();
     
     //this.miniConfig();
   }
 
   fetchClientList(): void {
-    this.clientService.getClientList()
-      .subscribe({
-        next: (clients: Client[]) => {
-          this.clients = clients;
-          this.legacyConfig();
-        },
-        error: (error) => {
-          console.error('Error fetching client list:', error);
-        }
-      });
+    this.clientService.getClientList().subscribe({
+      next: (clients: Client[]) => {
+        this.handleClientList(clients);
+      },
+      error: (error) => {
+        console.error('Error fetching client list:', error);
+      }
+    });
+  }
+
+  private handleClientList(clients: Client[]): void {
+    this.clients = clients;
+    const data = this.buildTableData();
+    this.updateTableData(data);
+  }
+
+  private buildTableData(): TotsListResponse<Client> {
+    const data = new TotsListResponse<Client>();
+    data.data = this.clients;
+    data.total = this.clients.length;
+    return data;
+  }
+
+  private updateTableData(data: TotsListResponse<Client>): void {
+    this.config.obs = of(data);
+    this.tableComp?.loadItems();
   }
 
   miniConfig() {
@@ -192,7 +208,7 @@ export class TableComponent implements OnInit {
     } else if (action.key == "form-change") {
       console.log(action.item.valid);
       console.log(action.item.values);
-    } else if (action.key == "delete") {
+    } else if (action.key == "remove") {
       this.removeItem(action.item);
     } else if (action.key == "page-change") {
       this.changePage(action.item);
@@ -205,7 +221,6 @@ export class TableComponent implements OnInit {
       { key: 'firstname', component: StringColumnComponent, title: 'Nombre', field_key: 'firstname', hasOrder: false, extra: { cutSeparator: ',' } },
       { key: 'lastname', component: StringColumnComponent, title: 'Apellido', field_key: 'lastname', hasOrder: false, extra: { field_subtitle_key: 'subtitle' } },
       { key: 'email', component: StringColumnComponent, title: 'Email', field_key: 'email', hasOrder: false },
-      { key: 'edit_field', component: InputColumnComponent, title: 'Edit', field_key: 'edit_field', extra: { validators: [Validators.required] } },
       {
         key: 'more', component: MoreMenuColumnComponent, title: '', extra: {
           stickyEnd: true, width: '60px', actions: [
@@ -215,11 +230,6 @@ export class TableComponent implements OnInit {
         }
       },
     ];
-    
-    let data = new TotsListResponse();
-    data.data = this.itemsClient;
-
-    this.config.obs = of(data).pipe(delay(1000));
   }
   configThroughFactories() {
     this.config.id = 'table-example';
@@ -274,13 +284,19 @@ export class TableComponent implements OnInit {
     this.tableCompGroup?.loadItems();
   }
 
+  deleteClient(id: number): void {
+    
+  }
   removeItem(item: any) {
-    this.items = this.items.filter(i => i.id != item.id)
-    let data = new TotsListResponse();
-    data.data = this.items;
-
-    this.config.obs = of(data);
-    this.tableCompGroup?.loadItems();
+    this.clientService.removeClient(item.id).subscribe({
+      next: () => {
+        console.log('Cliente eliminado correctamente');
+        this.fetchClientList();
+      },
+      error: (error) => {
+        console.error('Error al eliminar cliente:', error);
+      }
+    });
   }
 
   private changePage(pageEvent: PageEvent) {
