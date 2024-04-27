@@ -145,7 +145,7 @@ export class TableComponent implements OnInit {
   private buildTableData(): TotsListResponse<Client> {
     const data = new TotsListResponse<Client>();
     data.data = this.clients;
-    data.total = this.clients.length;
+    data.total = this.clients.length / 50;
     return data;
   }
 
