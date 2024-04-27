@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
-import { TotsListResponse } from '@tots/core';
 import { TotsDateColumn } from '../../../../tots_table/date-column/src/lib/column-factories/tots-date-column';
 import { DateColumnComponent } from '../../../../tots_table/date-column/src/public-api';
 import { TotsInputColumn } from '../../../../tots_table/editable-columns/src/lib/column-factories/tots-input-column';
@@ -21,6 +20,9 @@ import { TotsMoreMenuItem } from '../../../../tots_table/table/src/lib/entities/
 import { TotsStatusIconColumnOption } from '../../../../tots_table/table/src/lib/entities/tots-status-icon-column-option';
 import { BalanceCurrencyColumnComponent, BooleanColumnComponent, CheckboxColumnComponent, IconButtonColumnComponent, MoreMenuColumnComponent, OptionColumnComponent, StatusColumnComponent, StringColumnComponent, TotsActionTable, TotsColumn, TotsTableComponent, TotsTableConfig, TwoStringColumnComponent } from '../../../../tots_table/table/src/public-api';
 import { delay, of } from 'rxjs';
+import { ClientService } from 'src/app/services/client.service';
+import { Client } from 'src/app/entities/client';
+import { TotsListResponse } from '@tots/core';
 
 @Component({
   selector: 'app-table',
@@ -35,7 +37,7 @@ export class TableComponent implements OnInit {
   config = new TotsTableConfig();
 
   private id = 0;
-
+  clients: Client[] = [];
   items = [
     { id: this.id++, title: 'Item 1, pedro', active: 1, subtitle: 'AB232', date: '2021-01-01', debit: 1000, credit: 500 },
     { id: this.id++, title: 'Item 2', active: 1, subtitle: 'AB232', date: '2021-01-01', debit: 500, credit: 1000, edit_field: 'Pedro' },
@@ -43,13 +45,128 @@ export class TableComponent implements OnInit {
     { id: this.id++, title: 'Item 4', active: 0, subtitle: 'AB232', date: '2021-01-01', classCustom: 'tots-cell-item-green', edit_field: "dsdada" },
     { id: this.id++, title: 'Item 5', active: 1, subtitle: 'AB232', date: '2021-01-01' },
   ];
+  itemsClient: Client[] = [
+    {
+      "id": 1538,
+      "firstname": "test",
+      "lastname": "close",
+      "email": "anjuna@gmail.com",
+      "address": "walala 123",
+      "photo": "",
+      "caption": "",
+      "created_at": "2024-04-25T23:09:38.000000Z",
+      "updated_at": "2024-04-25T23:09:38.000000Z",
+      "deleted": 0
+    },
+    {
+      "id": 1537,
+      "firstname": "te",
+      "lastname": "st",
+      "email": "asd",
+      "address": "",
+      "photo": "",
+      "caption": "",
+      "created_at": "2024-04-25T23:08:27.000000Z",
+      "updated_at": "2024-04-25T23:08:27.000000Z",
+      "deleted": 0
+    },
+    {
+      "id": 1536,
+      "firstname": "close",
+      "lastname": "test",
+      "email": "s",
+      "address": "",
+      "photo": "",
+      "caption": "",
+      "created_at": "2024-04-25T23:07:35.000000Z",
+      "updated_at": "2024-04-25T23:07:35.000000Z",
+      "deleted": 0
+    },
+    {
+      "id": 1535,
+      "firstname": "testmodal",
+      "lastname": "modaltest",
+      "email": "jk@gmail.com",
+      "address": "",
+      "photo": "",
+      "caption": "",
+      "created_at": "2024-04-25T23:00:35.000000Z",
+      "updated_at": "2024-04-25T23:00:35.000000Z",
+      "deleted": 0
+    },
+    {
+      "id": 1534,
+      "firstname": "george6",
+      "lastname": "test",
+      "email": "testerino@outlook.com",
+      "address": "Walala 123",
+      "photo": "",
+      "caption": "",
+      "created_at": "2024-04-25T22:59:17.000000Z",
+      "updated_at": "2024-04-25T22:59:17.000000Z",
+      "deleted": 0
+    },
+  ];
 
   formGroup = new FormGroup({});
 
+  constructor(
+    //public modalEditar: MatDialog,
+    //public modalConfirmacion: MatDialog,
+    public clientService: ClientService
+  ) {
+
+  }
   ngOnInit(): void {
-    //this.legacyConfig();
+    //this.fetchClientList();
+    this.legacyConfig();
     //this.configThroughFactories();
-    this.miniConfig();
+    
+    //this.miniConfig();
+  }
+
+  fetchClientList(): void {
+    this.clientService.getClientList()
+      .subscribe({
+        next: (clients: Client[]) => {
+          this.clients = clients;
+          this.legacyConfig();
+        },
+        error: (error) => {
+          console.error('Error fetching client list:', error);
+        }
+      });
+  }
+
+  miniConfig() {
+    this.config.id = 'table-clientes';
+
+    this.config.columns = [
+      new TotsStringColumn("firstname", "firstname", "Nombre"),
+      new TotsStringColumn("lastname", "lastname", "Appelido"),
+      new TotsStringColumn("email", "email", "Email"),
+    ];
+
+/*          let data = new TotsListResponse();
+        data.data = [...this.itemsClient];
+        data.total = 50;
+    
+        this.config.obs = of(data).pipe(delay(1000)); */
+    // Suscripción para obtener la lista de clientes
+    this.clientService.getClientList().subscribe({
+      next: (clients: Client[]) => {
+        let data = new TotsListResponse();
+        //this.clients = clients;
+        data.data = [...clients];  // Utiliza los datos de los clientes obtenidos
+        data.total = clients.length;  // Establece el total de registros
+
+        // Asigna los datos a la propiedad obs del config
+        this.config.obs = of(data).pipe(delay(2000));
+      },
+      error: (error) => {
+        console.error('Error fetching client list:', error);
+      }
+    });
   }
 
   onOrder(column: TotsColumn) {
@@ -85,33 +202,9 @@ export class TableComponent implements OnInit {
   legacyConfig() {
     this.config.id = 'table-example';
     this.config.columns = [
-      { key: 'check', component: CheckboxColumnComponent, title: '', },
-      { key: 'title', component: StringColumnComponent, title: 'Titulo', field_key: 'title', hasOrder: true, extra: { cutSeparator: ',' } },
-      { key: 'subtitle', component: TwoStringColumnComponent, title: 'Titulo', field_key: 'title', hasOrder: false, extra: { field_subtitle_key: 'subtitle' } },
-      { key: 'include', component: BooleanColumnComponent, title: 'Activo', field_key: 'active', hasOrder: false },
-      { key: 'home', component: IconButtonColumnComponent, title: 'asd', field_key: 'active', hasOrder: false, extra: { icon: 'home', action: 'click-home' } },
-      { key: 'balance', component: BalanceCurrencyColumnComponent, title: 'Balance', hasOrder: false, extra: { field_key_debit: 'debit', field_key_credit: 'credit' } },
-      {
-        key: 'active', component: OptionColumnComponent, title: 'Activo', field_key: 'active', hasOrder: false, extra: {
-          field_rel_key: 'id',
-          field_print_key: 'name',
-          options: [
-            { id: 1, name: 'Activo A' },
-            { id: 0, name: 'Inactivo B' },
-          ]
-        }
-      },
-      {
-        key: 'active2', component: StatusColumnComponent, title: 'Activo2', field_key: 'active', hasOrder: false, extra: {
-          field_rel_key: 'id',
-          field_print_key: 'name',
-          options: [
-            { id: 1, name: 'Activo A' },
-            { id: 0, name: 'Inactivo B', background_color: 'rgba(128, 188, 0, 1)', font_color: 'white' },
-          ]
-        }
-      },
-      { key: 'date', component: DateColumnComponent, title: 'Date', field_key: 'date', hasOrder: false, extra: { format_in: 'YYYY-MM-DD', format_out: 'MM/DD/YYYY' } },
+      { key: 'firstname', component: StringColumnComponent, title: 'Nombre', field_key: 'firstname', hasOrder: false, extra: { cutSeparator: ',' } },
+      { key: 'lastname', component: StringColumnComponent, title: 'Apellido', field_key: 'lastname', hasOrder: false, extra: { field_subtitle_key: 'subtitle' } },
+      { key: 'email', component: StringColumnComponent, title: 'Email', field_key: 'email', hasOrder: false },
       { key: 'edit_field', component: InputColumnComponent, title: 'Edit', field_key: 'edit_field', extra: { validators: [Validators.required] } },
       {
         key: 'more', component: MoreMenuColumnComponent, title: '', extra: {
@@ -122,9 +215,9 @@ export class TableComponent implements OnInit {
         }
       },
     ];
-
+    
     let data = new TotsListResponse();
-    data.data = this.items;
+    data.data = this.itemsClient;
 
     this.config.obs = of(data).pipe(delay(1000));
   }
@@ -166,19 +259,6 @@ export class TableComponent implements OnInit {
     data.data = [...this.items];
 
     this.config.obs = of(data);
-  }
-  miniConfig() {
-    this.config.id = 'table-example';
-
-    this.config.columns = [
-      new TotsStringColumn("title", "title", "Título", false, undefined, "Prepend"),
-    ];
-
-    let data = new TotsListResponse();
-    data.data = [...this.items];
-    data.total = 50;
-
-    this.config.obs = of(data).pipe(delay(2000));
   }
 
   addItem() {
