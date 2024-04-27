@@ -29,4 +29,9 @@ export class ClientService extends TotsBaseHttpService<Client> {
       const url = this.config.baseUrl + 'client/remove/' + `${id}`;
       return this.http.delete<any>(url);
     }
+
+    createClient(client: Client): Observable<any> {
+      const url = this.config.baseUrl + '/client/save';
+      return this.http.post<any>(url, client);
+    }
 }

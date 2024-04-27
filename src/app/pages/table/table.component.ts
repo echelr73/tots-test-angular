@@ -151,7 +151,8 @@ export class TableComponent implements OnInit {
 
   private updateTableData(data: TotsListResponse<Client>): void {
     this.config.obs = of(data);
-    this.tableComp?.loadItems();
+    //this.tableComp?.loadItems();
+    this.tableCompGroup?.loadItems();
   }
 
   miniConfig() {
@@ -305,6 +306,6 @@ export class TableComponent implements OnInit {
     data.total = 50;
 
     this.config.obs = of(data).pipe(delay(2000));
-    this.tableComp.loadItems();
+    this.tableCompGroup?.loadItems();
   }
 }
