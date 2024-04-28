@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import * as moment from 'moment';
+
 import { TotsTableHelper, TotsBaseColumnComponent } from 'tots_table/table/src/public-api';
 
 @Component({
@@ -9,7 +10,7 @@ import { TotsTableHelper, TotsBaseColumnComponent } from 'tots_table/table/src/p
 })
 export class DateColumnComponent extends TotsBaseColumnComponent {
 
-  override getItemValue(): any {
+  /* override getItemValue(): any {
     let value = TotsTableHelper.getItemValueByKey(this.item, this.column.field_key);
 
     if(value == undefined || value == null || value == ''){
@@ -28,6 +29,6 @@ export class DateColumnComponent extends TotsBaseColumnComponent {
     }
 
     return date.format('MM/DD/YYYY');
-  }
+  } */
 
 }

@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TOTS_CORE_PROVIDER, TotsCoreModule } from '@tots/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TOTS_AUTH_PROVIDER, TotsAuthConfig, TotsAuthInterceptor, TotsAuthModule } from '@tots/auth';
 import { TOTS_CLOUD_STORAGE_PROVIDER } from '@tots/cloud-storage';
 import { TableComponent } from './pages/table/table.component';
@@ -15,6 +15,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { TotsDateColumnModule } from 'tots_table/date-column/src/public-api';
 import { TotsEditableColumnsModule } from 'tots_table/editable-columns/src/public-api';
+import { MatMenuModule } from '@angular/material/menu';
+import { TotsFormModule } from 'tots_form/form/src/public-api';
+import { TotsFormSidebarPageModule } from 'tots_form/form-sidebar-page/src/public-api';
+import { TotsUsersSelectorMenuModule } from 'tots_form/users-selector-menu/src/public-api';
+import { TotsDaySelectorMenuModule } from 'tots_form/day-selector-menu/src/public-api';
+import { TotsRangeDateSelectorMenuModule } from 'tots_form/range-date-selector-menu/src/public-api';
+import { TotsQuillMentionFieldFormModule } from 'tots_form/quill-mention-field-form/src/public-api';
+import { TotsMonacoEditorFieldFormModule } from 'tots_form/monaco-editor-field-form/src/public-api';
+import { TotsFormWizardModule } from 'tots_form/form-wizard/src/public-api';
+import { TotsDateFieldFormModule } from 'tots_form/date-field-form/src/public-api';
+import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 
 @NgModule({
   declarations: [
@@ -34,6 +45,18 @@ import { TotsEditableColumnsModule } from 'tots_table/editable-columns/src/publi
     TotsTableModule,
     MatButtonModule,
     MatButtonToggleModule,
+    HttpClientModule,
+    MatMenuModule,
+    TotsFormModule,
+    TotsFormSidebarPageModule,
+    MonacoEditorModule.forRoot(),
+    TotsDateFieldFormModule,
+    TotsUsersSelectorMenuModule,
+    TotsDaySelectorMenuModule,
+    TotsRangeDateSelectorMenuModule,
+    TotsQuillMentionFieldFormModule,
+    //TotsMonacoEditorFieldFormModule,
+    TotsFormWizardModule
   ],
   providers: [
     {
