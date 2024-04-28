@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { TotsBaseFieldComponent, TotsFieldForm, TotsFormHelper } from '@tots/form';
-import { moment } from 'moment';
+import * as moment from 'moment';
 
 
 @Component({

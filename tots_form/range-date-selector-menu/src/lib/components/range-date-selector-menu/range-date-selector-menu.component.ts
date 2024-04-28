@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { moment } from 'moment';
+import * as moment from 'moment';
+
+
  
 
 @Component({
