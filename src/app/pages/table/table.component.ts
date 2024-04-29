@@ -18,6 +18,7 @@ export class TableComponent implements OnInit {
   @ViewChild('tableCompGroup') tableCompGroup!: TotsTableFullGroupComponent;
 
   config = new TotsTableConfig();
+  dialogOpen = false;
 
   clients: Client[] = [];
 
@@ -108,38 +109,45 @@ export class TableComponent implements OnInit {
       ];
     }
 
-    const dialogRef = this.dialog.open(config)
-      .pipe(tap(action => {
-        if (action.key == 'submit') {
-          action.modal?.componentInstance.showLoading();
-        } else if (action.key == 'cancel') {
-          action.modal?.close();
-        }
-      }))
-      .pipe(delay(2000))
-      .pipe(tap(action => action.modal?.componentInstance.hideLoading()))
-      .subscribe(action => {
-        if (action.key == 'submit') {
-          let client = new Client();
-          client.id = action?.item?.id;
-          client.firstname = action?.item?.firstname;
-          client.lastname = action?.item?.lastname;
-          client.email = action?.item?.email;
+    if (!this.dialogOpen) {
+      this.dialogOpen = true;
 
-          this.clientService.createClient(client).subscribe({
-            next: () => {
-              console.log('Cliente creado correctamente');
-              action.modal?.close();
-              this.fetchClientList();
-            },
-            error: (error) => {
-              console.error('Error al crear cliente:', error);
-              action.modal?.close();
-            }
-          });
-          console.log(action)
-        }
-      });
+      const dialogRef = this.dialog.open(config)
+        .pipe(tap(action => {
+          if (action.key == 'submit') {
+            action.modal?.componentInstance?.showLoading();
+          } else if (action.key == 'cancel') {
+            this.dialogOpen = false;
+            action.modal?.close();
+          }
+        }))
+        .pipe(delay(2000))
+        .pipe(tap(action => action.modal?.componentInstance.hideLoading()))
+        .subscribe(action => {
+          if (action.key == 'submit') {
+            let client = new Client();
+            client.id = action?.item?.id;
+            client.firstname = action?.item?.firstname;
+            client.lastname = action?.item?.lastname;
+            client.email = action?.item?.email;
+
+            this.clientService.createClient(client).subscribe({
+              next: () => {
+                console.log('Cliente creado correctamente');
+                this.dialogOpen = false;
+                action.modal?.close();
+                this.fetchClientList();
+              },
+              error: (error) => {
+                console.error('Error al crear cliente:', error);
+                this.dialogOpen = false;
+                action.modal?.close();
+              }
+            });
+            console.log(action)
+          }
+        });
+    }
   }
 
   removeItem(item: any) {
@@ -150,30 +158,36 @@ export class TableComponent implements OnInit {
       { key: 'delete', component: SubmitAndCancelButtonsFieldComponent, label: 'Eliminar' }
     ];
 
-    const dialogRef = this.dialog.open(config)
-      .pipe(tap(action => {
-        if (action.key == 'delete') {
-          action.modal?.componentInstance.showLoading();
-        } else if (action.key == 'cancel') {
-          action.modal?.close();
-        }
-      }))
-      .pipe(delay(2000))
-      .pipe(tap(action => action.modal?.componentInstance.hideLoading()))
-      .subscribe(action => {
-        if (action.key == 'delete') {
-          this.clientService.removeClient(action.item.id).subscribe({
-            next: () => {
-              console.log('Cliente eliminado correctamente');
-              action.modal?.close();
-              this.fetchClientList();
-            },
-            error: (error) => {
-              console.error('Error al eliminar cliente:', error);
-              action.modal?.close();
-            }
-          });
-        }
-      });
+    if (!this.dialogOpen) {
+      this.dialogOpen = true;
+      const dialogRef = this.dialog.open(config)
+        .pipe(tap(action => {
+          if (action.key == 'delete') {
+            action.modal?.componentInstance?.showLoading();
+          } else if (action.key == 'cancel') {
+            this.dialogOpen = false;
+            action.modal?.close();
+          }
+        }))
+        .pipe(delay(2000))
+        .pipe(tap(action => action.modal?.componentInstance.hideLoading()))
+        .subscribe(action => {
+          if (action.key == 'delete') {
+            this.clientService.removeClient(action.item.id).subscribe({
+              next: () => {
+                console.log('Cliente eliminado correctamente');
+                this.dialogOpen = false;
+                action.modal?.close();
+                this.fetchClientList();
+              },
+              error: (error) => {
+                console.error('Error al eliminar cliente:', error);
+                this.dialogOpen = false;
+                action.modal?.close();
+              }
+            });
+          }
+        });
+    }
   }
 }

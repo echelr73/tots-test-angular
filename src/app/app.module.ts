@@ -18,6 +18,7 @@ import { TotsEditableColumnsModule } from 'tots_table/editable-columns/src/publi
 import { MatMenuModule } from '@angular/material/menu';
 import { TotsFormModule } from 'tots_form/form/src/public-api';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonToggleModule,
     HttpClientModule,
     MatMenuModule,
+    MatFormFieldModule,
     TotsFormModule,
   ],
   providers: [
