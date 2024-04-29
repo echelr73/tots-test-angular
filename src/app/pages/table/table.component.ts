@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { TotsTableFullGroupComponent } from '../../../../tots_table/editable-columns/src/public-api';
-import { IconButtonColumnComponent, MoreMenuColumnComponent, StringColumnComponent, TotsActionTable, TotsTableConfig } from '../../../../tots_table/table/src/public-api';
+import { MoreMenuColumnComponent, StringColumnComponent, TotsActionTable, TotsTableConfig } from '../../../../tots_table/table/src/public-api';
 import { delay, of, tap } from 'rxjs';
 import { ClientService } from 'src/app/services/client.service';
 import { Client } from 'src/app/entities/client';
