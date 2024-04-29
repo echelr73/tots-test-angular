@@ -1,0 +1,11 @@
+:host {
+    display: block;
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 16px;
+}
+.cdk-overlay-container{
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+}

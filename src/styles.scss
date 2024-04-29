@@ -1,2 +1,23 @@
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #eeeeee; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #eeeeee;
+}
+
+.cdk-overlay-container {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.cdk-overlay-pane [id^="mat-menu-panel-"] {
+    position: fixed !important;
+    left: 700px !important;
+    top: 85px !important;
+}

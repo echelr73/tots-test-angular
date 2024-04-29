@@ -26,15 +26,19 @@ import { TotsMonacoEditorFieldFormModule } from 'tots_form/monaco-editor-field-f
 import { TotsFormWizardModule } from 'tots_form/form-wizard/src/public-api';
 import { TotsDateFieldFormModule } from 'tots_form/date-field-form/src/public-api';
 import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
+import { FormComponentComponent } from './pages/form-component/form-component.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TableComponent
+    TableComponent,
+    FormComponentComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    MatDialogModule, 
 
     /** Tots Libraries */
     TotsCoreModule,
