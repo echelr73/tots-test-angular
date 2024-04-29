@@ -1,12 +1,7 @@
-<h1 class="title">
-    <span>Clientes</span>
-</h1>
-<!-- <div class="container">
-    <tots-table #tableComp [config]="config" (onAction)="onTableAction($event)" [pageIndex]="1" [pageSize]="5"></tots-table>
-</div> -->
-
-
-<button style="margin: 1rem;" (click)="addAndEditItem()">Agregar item</button>
+<h2 class="title">
+  <span>Clientes</span>
+</h2>
 <div class="container">
-  <tots-table-full-group #tableCompGroup [config]="config" (onAction)="onTableAction($event)"></tots-table-full-group>
+  <button id="btnAgregarItem" (click)="addAndEditItem()">Agregar item</button>
+  <tots-table-full-group #tableCompGroup [config]="config" (onAction)="onTableAction($event)" [hasPagination]="false"></tots-table-full-group>
 </div>

@@ -17,21 +17,20 @@ export class ClientService extends TotsBaseHttpService<Client> {
     this.basePathUrl = 'client';
   }
 
-    // Método para obtener la lista de clientes
-    getClientList(): Observable<Client[]> {
-      const url = this.config.baseUrl + 'client/list'; // URL completa para la solicitud POST
-      return this.http.post<any>(url, {}).pipe(
-        map(response => response?.response?.data || [])
-      ); // Realiza la solicitud POST y devuelve un Observable de Client[]
-    }
+  getClientList(): Observable<Client[]> {
+    const url = this.config.baseUrl + this.basePathUrl + '/list';
+    return this.http.post<any>(url, {}).pipe(
+      map(response => response?.response?.data || [])
+    );
+  }
 
-    removeClient(id: number): Observable<any> {
-      const url = this.config.baseUrl + 'client/remove/' + `${id}`;
-      return this.http.delete<any>(url);
-    }
+  removeClient(id: number): Observable<any> {
+    const url = this.config.baseUrl + this.basePathUrl + '/remove/' + `${id}`;
+    return this.http.delete<any>(url);
+  }
 
-    createClient(client: Client): Observable<any> {
-      const url = this.config.baseUrl + '/client/save';
-      return this.http.post<any>(url, client);
-    }
+  createClient(client: Client): Observable<any> {
+    const url = this.config.baseUrl + this.basePathUrl + '/save';
+    return this.http.post<any>(url, client);
+  }
 }
