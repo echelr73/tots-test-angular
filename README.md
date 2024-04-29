@@ -1,27 +1,12 @@
-# TotsTestAngular
+Pasos para probar el proyecto:
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.5.
+1.-Descargar el repositorio
+2.-Abrirlo con Visual Studio Code
+3.-Abrir la terminal y ejecutar: "npm install"
+4.-Cuando termina de instalar lo necesario ejecutar: "npm start"
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Me llevo 20 hs terminar con el ejercicio.
+Al importar las libreria tots_table y tots_form no logue que se abra correctamente el popup y el mat-menu para Editar y Borrar clientes.
+Le aplique estilos en el archivo "styles.scss" para que sobreescriban los de las librerias y que se puedan visualizar lo mejor posible.
+Los puntos de mejora serian esteticos, ya que los input en los form no se llegan a ver completos.
