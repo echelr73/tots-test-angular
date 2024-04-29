@@ -1,5 +1,5 @@
 <button mat-icon-button [matMenuTriggerFor]="actions" (click)="$event.stopPropagation()"><mat-icon>more_vert</mat-icon></button>
-<mat-menu #actions="matMenu" xPosition="after" [class]="column.extra?.class">
+<mat-menu #actions="matMenu" xPosition="after">
     <button mat-menu-item *ngFor="let button of column.extra?.actions" (click)="clickButton(button, $event)" class="{{button.class}}">
         <mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon> {{ button.title }}
     </button>

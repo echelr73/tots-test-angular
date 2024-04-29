@@ -71,17 +71,18 @@ export class TableComponent implements OnInit {
   tableConfig() {
     this.config.id = 'table-clients';
     this.config.columns = [
-      { key: 'firstname', component: StringColumnComponent, title: 'Nombre', field_key: 'firstname', hasOrder: false, extra: { cutSeparator: ',' } },
-      { key: 'lastname', component: StringColumnComponent, title: 'Apellido', field_key: 'lastname', hasOrder: false, extra: { field_subtitle_key: 'subtitle' } },
-      { key: 'email', component: StringColumnComponent, title: 'Email', field_key: 'email', hasOrder: false },
       {
         key: 'more', component: MoreMenuColumnComponent, title: '', extra: {
-          stickyEnd: true, width: '60px', class: 'mat-menu-item', actions: [
+          stickyEnd: false, width: '100px', actions: [
             { icon: 'edit', title: 'Editar', key: 'edit' },
             { icon: 'delete', title: 'Eliminar', key: 'remove' },
           ]
         }
       },
+      { key: 'firstname', component: StringColumnComponent, title: 'Nombre', field_key: 'firstname', hasOrder: false, extra: { cutSeparator: ',' } },
+      { key: 'lastname', component: StringColumnComponent, title: 'Apellido', field_key: 'lastname', hasOrder: false, extra: { field_subtitle_key: 'subtitle' } },
+      { key: 'email', component: StringColumnComponent, title: 'Email', field_key: 'email', hasOrder: false },
+
     ];
   }
 

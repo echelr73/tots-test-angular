@@ -17,7 +17,6 @@ body {
 }
 
 .cdk-overlay-pane [id^="mat-menu-panel-"] {
-    position: fixed !important;
-    left: 320% !important;
-    top: 5% !important;
+    border: 1px gray solid !important;
+    background-color: #eeeeee !important;
 }
